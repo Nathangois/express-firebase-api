@@ -143,3 +143,33 @@ app.post("/api/addUser", async (req, res) => {
     res.status(500).send({ error: "Erro ao salvar no Firestore." });
   }
 });
+
+app.get("/api/lembretes/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId) {
+      return res.status(400).json({ error: "O ID do usuário é obrigatório!" });
+    }
+
+    const lembretesSnapshot = await db.collection("lembretes").where("userId", "==", userId).get();
+
+    if (lembretesSnapshot.empty) {
+      return res.status(404).json({ message: "Nenhum lembrete encontrado para este usuário." });
+    }
+
+    const lembretes = lembretesSnapshot.docs.map((doc) => {
+      const lembreteData = doc.data();
+      return {
+        id: doc.id,
+        ...lembreteData,
+        horario: moment(lembreteData.horario.toDate()).format("DD/MM/YYYY HH:mm"), // Formata a data
+      };
+    });
+
+    res.status(200).json(lembretes);
+  } catch (error) {
+    console.error("Erro ao buscar lembretes:", error);
+    res.status(500).json({ error: "Erro ao buscar lembretes." });
+  }
+});
