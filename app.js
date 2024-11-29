@@ -43,10 +43,15 @@ admin.initializeApp({
 });
 
 let accessToken = process.env.ACCESS_TOKEN;
-const refreshToken = process.env.REFRESH_TOKEN;
+let refreshToken = process.env.REFRESH_TOKEN;
 
 // Função para obter um novo token de acesso usando o token de atualização
 async function refreshAccessToken() {
+  if (!refreshToken) {
+    console.error('Erro: O refresh_token não está definido. Certifique-se de definir a variável de ambiente REFRESH_TOKEN.');
+    return;
+  }
+
   try {
     const response = await axios.post('https://oauth2.googleapis.com/token', {
       client_id: process.env.FIREBASE_CLIENT_ID,
@@ -55,6 +60,7 @@ async function refreshAccessToken() {
       grant_type: 'refresh_token',
     });
     accessToken = response.data.access_token; // Atualiza o token de acesso
+    refreshToken = response.data.refresh_token || refreshToken; // Atualiza o refresh_token se estiver presente
     console.log('Novo token de acesso gerado:', accessToken);
   } catch (error) {
     console.error('Erro ao renovar o token de acesso:', JSON.stringify(error.response ? error.response.data : error.message, null, 2));
@@ -77,7 +83,11 @@ async function requestFirestore() {
     if (error.response && error.response.status === 401) {
       console.log('Token expirou, renovando o token...');
       await refreshAccessToken(); // Renova o token de acesso
-      await requestFirestore(); // Tenta novamente após renovar o token
+      if (accessToken) {
+        await requestFirestore(); // Tenta novamente após renovar o token
+      } else {
+        console.error('Erro: Não foi possível renovar o token de acesso. Verifique o refresh_token.');
+      }
     } else {
       console.error('Erro ao acessar o Firestore:', JSON.stringify(error.response ? error.response.data : error.message, null, 2));
     }
