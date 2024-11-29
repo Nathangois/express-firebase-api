@@ -540,7 +540,7 @@ app.get("/", (req, res) => {
 });
 
 // Porta do servidor
-const PORT = 8080;
+const PORT = 24;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando em http://216.24.60.0:${PORT}`);
 });
