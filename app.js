@@ -103,8 +103,18 @@ app.get("/", (req, res) => {
 
 // Porta do servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+
+// Verifica se a porta está disponível e cria o servidor
+app.listen(PORT, (error) => {
+  if (error) {
+    console.error(`Erro ao iniciar o servidor: ${error.message}`);
+    if (error.code === 'EADDRINUSE') {
+      console.error(`A porta ${PORT} já está em uso. Tente usar uma porta diferente.`);
+    }
+    process.exit(1);
+  } else {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  }
 });
 
 // Rota para adicionar um usuário ao Firestore
@@ -132,9 +142,4 @@ app.post("/api/addUser", async (req, res) => {
     console.error("Erro ao salvar no Firestore:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
     res.status(500).send({ error: "Erro ao salvar no Firestore." });
   }
-});
-
-// Porta do servidor
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
 });
