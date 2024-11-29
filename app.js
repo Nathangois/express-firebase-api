@@ -29,12 +29,11 @@ const transporter = nodemailer.createTransport({
 });
 
 // Inicialize o Firebase Admin com a chave privada
-var serviceAccount = require("./google-services.json");
+const serviceAccount = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
-
 
 const db = admin.firestore(); // Obtém a referência do Firestore
 
