@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Inicialize o Firebase Admin com a chave privada
-var serviceAccount = require("path/to/serviceAccountKey.json");
+var serviceAccount = require("./serviceAccountKey.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
