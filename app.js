@@ -25,30 +25,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Verificação das variáveis de ambiente
-const requiredEnvVars = [
-  'TYPE',
-  'PROJECT_ID',
-  'PRIVATE_KEY_ID',
-  'PRIVATE_KEY',
-  'CLIENT_EMAIL',
-  'CLIENT_ID',
-  'AUTH_URI',
-  'TOKEN_URI',
-  'AUTH_PROVIDER_X509_CERT_URL',
-  'CLIENT_X509_CERT_URL',
-  'FIREBASE_CLIENT_ID',
-  'FIREBASE_CLIENT_SECRET',
-  'FIREBASE_PROJECT_ID'
-];
-
-requiredEnvVars.forEach((envVar) => {
-  if (!process.env[envVar]) {
-    console.error(`Erro: A variável de ambiente ${envVar} não está definida.`);
-    process.exit(1);
-  }
-});
-
 // Inicializar o Firebase Admin SDK com a conta de serviço
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -66,8 +42,8 @@ admin.initializeApp({
   })
 });
 
-let accessToken = process.env.FIREBASE_ACCESS_TOKEN;
-const refreshToken = process.env.FIREBASE_REFRESH_TOKEN;
+let accessToken = process.env.ACCESS_TOKEN;
+const refreshToken = process.env.REFRESH_TOKEN;
 
 // Função para obter um novo token de acesso usando o token de atualização
 async function refreshAccessToken() {
