@@ -8,14 +8,6 @@ const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const moment = require("moment"); // Adicionando moment.js para formatação de datas
 
-//Variavel de Ambiente_Firebase
-admin.initializeApp({
-  credential: admin.credential.cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\n/g, '\n'),
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  }),
-});
 
 // EMAIL with Nodemailer
 const nodemailer = require('nodemailer');
