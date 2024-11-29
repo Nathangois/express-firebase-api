@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const moment = require("moment"); // Adicionando moment.js para formatação de datas
+const axios = require('axios');
 
 
 // EMAIL with Nodemailer
@@ -28,24 +29,56 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Inicialize o Firebase Admin com a chave privada
-const serviceAccount = {
-  type: process.env.TYPE,
-  project_id: process.env.PROJECT_ID,
-  private_key_id: process.env.PRIVATE_KEY_ID,
-  private_key: process.env.PRIVATE_KEY.replace(/\n/g, '\n'), // Substitui os \n pelo caractere de nova linha
-  client_email: process.env.CLIENT_EMAIL,
-  client_id: process.env.CLIENT_ID,
-  auth_uri: process.env.AUTH_URI,
-  token_uri: process.env.TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
-  universe_domain: process.env.UNIVERSE_DOMAIN,
-};
-
+// Inicializar o Firebase Admin SDK com a conta de serviço
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.applicationDefault()
 });
+
+let accessToken = process.env.FIREBASE_ACCESS_TOKEN; // Obtém o token de acesso inicial das variáveis de ambiente
+const refreshToken = process.env.FIREBASE_REFRESH_TOKEN;
+
+// Função para obter um novo token de acesso usando o token de atualização
+async function refreshAccessToken() {
+  try {
+    const response = await axios.post('https://oauth2.googleapis.com/token', {
+      client_id: process.env.FIREBASE_CLIENT_ID,
+      client_secret: process.env.FIREBASE_CLIENT_SECRET,
+      refresh_token: refreshToken,
+      grant_type: 'refresh_token',
+    });
+    accessToken = response.data.access_token; // Atualiza o token de acesso
+    console.log('Novo token de acesso gerado:', accessToken);
+  } catch (error) {
+    console.error('Erro ao renovar o token de acesso:', error);
+  }
+}
+
+// Função para fazer uma solicitação ao Firestore usando o token de acesso
+async function requestFirestore() {
+  const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${process.env.FIREBASE_PROJECT_ID}/databases/(default)/documents/your_collection`;
+
+  try {
+    const response = await axios.get(firestoreUrl, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log(response.data);
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      // Se o erro for 401 (não autorizado), significa que o token expirou
+      console.log('Token expirou, renovando o token...');
+      await refreshAccessToken(); // Renova o token de acesso
+      await requestFirestore(); // Tenta novamente após renovar o token
+    } else {
+      console.error('Erro ao acessar o Firestore:', error);
+    }
+  }
+}
+
+// Exemplo de uso
+requestFirestore();
 
 const db = admin.firestore(); // Obtém a referência do Firestore
 
