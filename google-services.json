@@ -1,13 +1,29 @@
 {
-  "type": "service_account",
-  "project_id": "todolist-30df2",
-  "private_key_id": "8dd981ea021ab46830f71aecd28d70d23989fb3a",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC1edGOGxf728Bt\nzZiw+bAozKgU9G8hB5AxeQQK+q6BLCZ0CH+vhwXB1nnmN2E2dpkET2aT20tWL/+Y\n6EMUjevGHIskNmyenr8dVNqrqAei3EjsDYjD0uQoPDhn7s4iDy3iWQRhz85AO8IM\n+mwS1dbrywl4ETB+4mn41XT0+opgidQ9UXHVWOVF27v7yzotXt8/b78lDVqUTg5J\ntv0VVmK9xD/B1Ii3cq93sCfx2X1jYITDuL6uTljYxvzSbpx5fr4Uz733THo7kjU7\nGHTbh53HINMM+0+JUdpV8JdeLOGr4xBWtJx5qq+2Ez/1NGXdq0YCtSUPcUCdYurs\nFBR2KwgZAgMBAAECggEAPCdWjnetogbsCJmTSOpi+YspFdUWNwkWQ0fdTrRcfqW/\nU0vz4x9rCZ8JxgVKXG7AdtzI4C7bEIUVgL5QafJHGmKgvo6pv4RYTiUv3KF0cof5\nRgGQeXSguzOG8PCH9GM6ruIZ4UAsGj+UqY+injWyqXMiPuHXxN9RCDHdNE0N7ESD\nAfrvILwBOKTLpIS6FMF0vFfkxkYAV9Kq7jtLFmvzV/MGbcF5TOx5LOuUI+N7HDE3\nVkSPzPj2eBpqlTVRITxMecP7L/eDRBOCk4Le1atbiNWvH7xkcxIsEo0u09Ik3HzC\nx9lm5wJRzCZTWkSgog9gnxP7f9gFYwQ2ZvGO64q+FwKBgQD64+Rjw5noqeM9ttSb\nvdBBSmD87AzTyRvg8a63oKH6xt1ZsZoElOoYLYL3AOyz+Tp6ZXfLL5vtvqE7jpLG\ncJBtMDUsdSx8yB5V7lHFUdR/FfRRKZ2yRdpqVS4i4VIqeODsLU0QpGCXBRS4aZuX\nisSOM4ZPpWcDapAdye5SLa/FhwKBgQC5LAJi823N1b5tghdIxk7c9ZwowGJ9Ty6V\n9LFEyBjalNhLE5shZ+HH1MzYtIu31IXvsbfrpWNealYWNkQ7EYXMCLlEes3wGqE6\nmZB6m4J4n36cO7g2DjkOAaz/NuhvvhfZ2ntRTn77Rxd1ob16+1kvMUOORHuOSv4C\nkXhREAgtXwKBgHLrXhsAZog3ARqsm1g3KqQtcJ2JdhqwPK/dpD0CPA/FdXB3NGgy\n2cN3XUzMxJ9vYoTb43JTfWX58pp4JOz2dIE/Gqwhg94oQBT2U8hBQkdwA/gFSvF0\no6YfHEHn2Z4Qvl4QJgOgd4nVTvdlkFpquru0CCqFRdk/v4GVlC9aM/ATAoGACxE7\nT0i3Xl8RE6B73cikfAZd//2HpW+vHB1U3wSKn73Xs50HX5bC4tuwJp+b3i/glXPs\nxzPKXaFDZe52Y4VnlstKr3Ibjuc4jbUR8pIK2UTHH3VeTDTLai/ldBeHCu60pDuv\ntStY4ZHdMBWrqocNTInIPN+Q9u86gVLKeyXXJ0cCgYAy/ww52gyeIVuIcq65O8kq\n6ne9lM24+u8F1vYacvFakqRENbuKUudS0YRF1igilpmfIPTdoHron5yi85ebaRv/\nmbKkf2hyt06BlhfqE3mxq7hKwVClvhzl/olkhELafeljBvHfzbNdpvW9udC/Oz2y\nnxqTWIwRPCT8pZ7mTmzzTQ==\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-1v15z@todolist-30df2.iam.gserviceaccount.com",
-  "client_id": "114613935411775411005",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-1v15z%40todolist-30df2.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
+  "project_info": {
+    "project_number": "40562822029",
+    "project_id": "todolist-30df2",
+    "storage_bucket": "todolist-30df2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40562822029:android:4a324bd55345dbb1a00bc4",
+        "android_client_info": {
+          "package_name": "com.todolist.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIBguYnPEnI8If_DIueX-xG42W6sQa-To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
 }
