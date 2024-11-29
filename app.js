@@ -29,25 +29,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+
+
 // Inicializar o Firebase Admin SDK com a conta de serviço
 admin.initializeApp({
-  credential: admin.credential.applicationDefault({
-  //type: process.env.TYPE,
-  project_id: process.env.PROJECT_ID,
-  private_key_id: process.env.PRIVATE_KEY_ID,
-  private_key: process.env.PRIVATE_KEY.replace(/\n/g, '\n'), // Substitui os \n pelo caractere de nova linha
-  client_email: process.env.CLIENT_EMAIL,
-  client_id: process.env.CLIENT_ID,
-  auth_uri: process.env.AUTH_URI,
-  token_uri: process.env.TOKEN_URI,
-  auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
-  client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
-  //universe_domain: process.env.UNIVERSE_DOMAIN,
-  }
-  )
+  credential: admin.credential.cert({
+    type: process.env.TYPE,
+    project_id: process.env.PROJECT_ID,
+    private_key_id: process.env.PRIVATE_KEY_ID,
+    private_key: process.env.PRIVATE_KEY.replace(/\\n/g, '\n'),
+    client_email: process.env.CLIENT_EMAIL,
+    client_id: process.env.CLIENT_ID,
+    auth_uri: process.env.AUTH_URI,
+    token_uri: process.env.TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
+    client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
+    universe_domain: process.env.UNIVERSE_DOMAIN,
+  })
 });
 
-let accessToken = process.env.FIREBASE_ACCESS_TOKEN; // Obtém o token de acesso inicial das variáveis de ambiente
+let accessToken = process.env.FIREBASE_ACCESS_TOKEN;
 const refreshToken = process.env.FIREBASE_REFRESH_TOKEN;
 
 // Função para obter um novo token de acesso usando o token de atualização
@@ -80,7 +81,6 @@ async function requestFirestore() {
     console.log(response.data);
   } catch (error) {
     if (error.response && error.response.status === 401) {
-      // Se o erro for 401 (não autorizado), significa que o token expirou
       console.log('Token expirou, renovando o token...');
       await refreshAccessToken(); // Renova o token de acesso
       await requestFirestore(); // Tenta novamente após renovar o token
