@@ -20,9 +20,33 @@ const transporter = nodemailer.createTransport({
   service: 'gmail',
   secure: true, // Usa SSL
   auth: {
-      user: 'terrordoflutter@gmail.com',
-      pass: process.env.EMAIL_PASSWORD
+    user: 'terrordoflutter@gmail.com',
+    pass: process.env.EMAIL_PASSWORD
   },
+});
+
+// Verificação das variáveis de ambiente
+const requiredEnvVars = [
+  'TYPE',
+  'PROJECT_ID',
+  'PRIVATE_KEY_ID',
+  'PRIVATE_KEY',
+  'CLIENT_EMAIL',
+  'CLIENT_ID',
+  'AUTH_URI',
+  'TOKEN_URI',
+  'AUTH_PROVIDER_X509_CERT_URL',
+  'CLIENT_X509_CERT_URL',
+  'FIREBASE_CLIENT_ID',
+  'FIREBASE_CLIENT_SECRET',
+  'FIREBASE_PROJECT_ID'
+];
+
+requiredEnvVars.forEach((envVar) => {
+  if (!process.env[envVar]) {
+    console.error(`Erro: A variável de ambiente ${envVar} não está definida.`);
+    process.exit(1);
+  }
 });
 
 // Inicializar o Firebase Admin SDK com a conta de serviço
@@ -141,35 +165,5 @@ app.post("/api/addUser", async (req, res) => {
   } catch (error) {
     console.error("Erro ao salvar no Firestore:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
     res.status(500).send({ error: "Erro ao salvar no Firestore." });
-  }
-});
-
-app.get("/api/lembretes/:userId", async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    if (!userId) {
-      return res.status(400).json({ error: "O ID do usuário é obrigatório!" });
-    }
-
-    const lembretesSnapshot = await db.collection("lembretes").where("userId", "==", userId).get();
-
-    if (lembretesSnapshot.empty) {
-      return res.status(404).json({ message: "Nenhum lembrete encontrado para este usuário." });
-    }
-
-    const lembretes = lembretesSnapshot.docs.map((doc) => {
-      const lembreteData = doc.data();
-      return {
-        id: doc.id,
-        ...lembreteData,
-        horario: moment(lembreteData.horario.toDate()).format("DD/MM/YYYY HH:mm"), // Formata a data
-      };
-    });
-
-    res.status(200).json(lembretes);
-  } catch (error) {
-    console.error("Erro ao buscar lembretes:", error);
-    res.status(500).json({ error: "Erro ao buscar lembretes." });
   }
 });
