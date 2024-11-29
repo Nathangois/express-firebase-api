@@ -540,7 +540,7 @@ app.get("/", (req, res) => {
 });
 
 // Porta do servidor
-const PORT = 24;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://216.24.60.0:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
